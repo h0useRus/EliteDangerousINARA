@@ -12,10 +12,31 @@ Simple library for [INARA](https://inara.cz/) integration based on [documentatio
 Use `AddEliteDangerousINARA()` method to add API into your app:
 ```c#
 // Use Microsoft.Extensions.DependencyInjection
-var serviceProvider = new ServiceCollection()
-                .AddLogging(cfg => cfg.AddConsole())
-                .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel=LogLevel.Debug)
-                .AddEliteDangerousAPI()
-                .AddEliteDangerousINARA()
-                .BuildServiceProvider();
+ var inara = new ServiceCollection()
+                .AddLogging(cfg => cfg.AddDebug())
+                .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Warning)
+                .AddEliteDangerousINARA(o =>
+                {
+                    o.ApiKey = "your_apikey_from_inara";
+                    o.ApplicationName = "your_application_name";
+                    o.ApplicationVersion = "1.2.3";
+                })
+                .BuildServiceProvider()
+                .GetService<IEliteDangerousINARA>();
 ```
+or with known Commander
+```c#
+// Use Microsoft.Extensions.DependencyInjection
+ var inara = new ServiceCollection()
+                .AddLogging(cfg => cfg.AddDebug())
+                .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Warning)
+                .AddEliteDangerousINARA(o =>
+                {
+                    o.ApiKey = "your_apikey_from_inara";
+                    o.ApplicationName = "your_application_name";
+                    o.ApplicationVersion = "1.2.3";
+                })
+                .BuildServiceProvider()
+                .GetService<IEliteDangerousINARA>();
+```
+
