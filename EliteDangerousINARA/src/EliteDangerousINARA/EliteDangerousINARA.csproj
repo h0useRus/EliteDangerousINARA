@@ -20,10 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Events\" />
+    <PackageReference Include="NSW.EliteDangerous.API" Version="1.0.26" />
   </ItemGroup>
 
 </Project>

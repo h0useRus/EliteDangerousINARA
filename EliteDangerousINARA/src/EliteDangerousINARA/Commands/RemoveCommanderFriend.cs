@@ -7,7 +7,7 @@ namespace NSW.EliteDangerous.INARA.Commands
     /// Removes a target commander from the friends list on Inara. The request may not be performed
     /// when such commander is not found under his/her in-game name.
     /// </summary>
-    public class DeleteCommanderFriend : Command
+    public class RemoveCommanderFriend : Command
     {
         internal override string CommandName => "delCommanderFriend";
 
@@ -16,7 +16,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         [JsonProperty("gamePlatform")]
         public string GamePlatform { get; internal set; }
 
-        public DeleteCommanderFriend(string commanderName, GamePlatform platform)
+        public RemoveCommanderFriend(string commanderName, GamePlatform platform)
         {
             if(string.IsNullOrWhiteSpace(commanderName)) throw new ArgumentNullException(nameof(commanderName));
             CommanderName = commanderName;
