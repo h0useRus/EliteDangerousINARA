@@ -20,6 +20,7 @@ Use `AddEliteDangerousINARA()` method to add API into your app:
                     o.ApiKey = "your_apikey_from_inara";
                     o.ApplicationName = "your_application_name";
                     o.ApplicationVersion = "1.2.3";
+                    o.IsDevelopment = true; // set this while you debugging
                 })
                 .BuildServiceProvider()
                 .GetService<IEliteDangerousINARA>();
@@ -35,6 +36,8 @@ or with known Commander
                     o.ApiKey = "your_apikey_from_inara";
                     o.ApplicationName = "your_application_name";
                     o.ApplicationVersion = "1.2.3";
+                    o.Commander = "Your Commander";
+                    o.FrontierId = "F1234567"; // this optional
                 })
                 .BuildServiceProvider()
                 .GetService<IEliteDangerousINARA>();
