@@ -1,6 +1,5 @@
 using System;
 using Newtonsoft.Json;
-using NSW.EliteDangerous.INARA.Entities;
 
 namespace NSW.EliteDangerous.INARA.Commands
 {
@@ -15,10 +14,10 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string ItemName { get; internal set; }
 
         [JsonProperty("itemValue")]
-        public int ItemValue { get; set; }
+        public int? ItemValue { get; set; }
 
         [JsonProperty("isHot")]
-        public bool IsHot { get; set; }
+        public bool? IsHot { get; set; }
 
         [JsonProperty("starsystemName")]
         public string StarSystem { get; set; }

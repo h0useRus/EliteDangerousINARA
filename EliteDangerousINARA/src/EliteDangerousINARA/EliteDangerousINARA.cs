@@ -2,40 +2,49 @@ using System;
 using System.Net.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NSW.EliteDangerous.INARA.Commands;
 
 namespace NSW.EliteDangerous.INARA
 {
     internal class EliteDangerousINARA : IEliteDangerousINARA
     {
-        public readonly HttpClient _client;
-        public readonly InaraOptions _options;
-        public readonly ILogger _log;
+        internal HttpClient Client { get; }
+        internal ILogger Log { get; }
+        internal InaraOptions Options { get; }
+        internal ISystemClock Clock { get; }
 
-        public EliteDangerousINARA(IOptions<InaraOptions> options, ILoggerFactory loggerFactory)
+        public EliteDangerousINARA(IOptions<InaraOptions> options, ISystemClock clock, ILoggerFactory loggerFactory)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
             if (loggerFactory==null) throw new ArgumentNullException(nameof(loggerFactory));
+            Clock = clock ?? throw new ArgumentNullException(nameof(clock));
 
-            _options = options.Value;
-            if (string.IsNullOrWhiteSpace(_options.ApplicationName)) throw new ArgumentNullException(nameof(_options.ApplicationName));
-            if (string.IsNullOrWhiteSpace(_options.ApplicationVersion)) throw new ArgumentNullException(nameof(_options.ApplicationVersion));
-            if (string.IsNullOrWhiteSpace(_options.ApiKey)) throw new ArgumentNullException(nameof(_options.ApiKey));
-            if (string.IsNullOrWhiteSpace(_options.Url)) throw new ArgumentNullException(nameof(_options.Url));
+            Options = options.Value;
+            if (string.IsNullOrWhiteSpace(Options.ApplicationName)) throw new ArgumentNullException(nameof(Options.ApplicationName));
+            if (string.IsNullOrWhiteSpace(Options.ApplicationVersion)) throw new ArgumentNullException(nameof(Options.ApplicationVersion));
+            if (string.IsNullOrWhiteSpace(Options.ApiKey)) throw new ArgumentNullException(nameof(Options.ApiKey));
+            if (string.IsNullOrWhiteSpace(Options.Url)) throw new ArgumentNullException(nameof(Options.Url));
 
-            _client = new HttpClient {BaseAddress = new Uri(_options.Url)};
+            Client = new HttpClient {BaseAddress = new Uri(Options.Url)};
 
-            _log = loggerFactory.CreateLogger<EliteDangerousINARA>();
+            Log = loggerFactory.CreateLogger<EliteDangerousINARA>();
         }
 
         public void SetCommander(string commander, string frontierId = null)
         {
             if (string.IsNullOrWhiteSpace(commander)) throw new ArgumentNullException(nameof(commander));
 
-            _options.Commander = commander;
-            _options.FrontierId = frontierId;
+            Options.Commander = commander;
+            Options.FrontierId = frontierId;
         }
 
-        #region Implementation of IDisposable
+        public InaraRequest AddCommand<TCommand>(TCommand command) where TCommand : Command
+        {
+            if(command==null) throw new ArgumentNullException(nameof(command));
+            return new InaraRequest(this).AddCommand(command);
+        }
+
+        #region IDisposable
 
         private bool _disposed;
 
@@ -43,7 +52,7 @@ namespace NSW.EliteDangerous.INARA
         {
             if (!_disposed)
             {
-                _client.Dispose();
+                Client.Dispose();
             }
 
             _disposed = true;

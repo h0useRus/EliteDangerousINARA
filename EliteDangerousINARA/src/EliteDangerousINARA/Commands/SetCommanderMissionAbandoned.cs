@@ -15,11 +15,10 @@ namespace NSW.EliteDangerous.INARA.Commands
         internal override string CommandName => "setCommanderMissionAbandoned";
 
         [JsonProperty("missionGameID")]
-        public string MissionId { get; internal set; }
+        public long MissionId { get; internal set; }
 
-        public SetCommanderMissionAbandoned(string missionId)
+        public SetCommanderMissionAbandoned(long missionId)
         {
-            if(string.IsNullOrWhiteSpace(missionId)) throw new ArgumentNullException(nameof(missionId));
             MissionId = missionId;
         }
     }

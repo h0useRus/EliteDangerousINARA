@@ -19,7 +19,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string MissionName { get; internal set; }
 
         [JsonProperty("missionGameID")]
-        public string MissionId { get; internal set; }
+        public long MissionId { get; internal set; }
 
         [JsonProperty("starsystemNameOrigin")]
         public string OriginStarSystem { get; internal set; }
@@ -75,10 +75,9 @@ namespace NSW.EliteDangerous.INARA.Commands
         [JsonProperty("passengerIsWanted")]
         public bool? PassengerIsWanted { get; set; }
 
-        public AddCommanderMission(string missionName, string missionId, string originStarSystem)
+        public AddCommanderMission(string missionName, long missionId, string originStarSystem)
         {
             if(string.IsNullOrWhiteSpace(missionName)) throw new ArgumentNullException(nameof(missionName));
-            if(string.IsNullOrWhiteSpace(missionId)) throw new ArgumentNullException(nameof(missionId));
             if(string.IsNullOrWhiteSpace(originStarSystem)) throw new ArgumentNullException(nameof(originStarSystem));
 
             MissionName = missionName;

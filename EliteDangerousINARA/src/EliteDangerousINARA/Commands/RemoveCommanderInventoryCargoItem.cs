@@ -20,7 +20,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         public int ItemCount { get; internal set; }
 
         [JsonProperty("isStolen")]
-        public bool IsStolen { get; set; }
+        public bool? IsStolen { get; set; }
 
         [JsonProperty("missionGameID")]
         public long? MissionID { get; set; }

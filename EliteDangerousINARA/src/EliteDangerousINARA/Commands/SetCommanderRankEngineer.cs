@@ -14,8 +14,10 @@ namespace NSW.EliteDangerous.INARA.Commands
         [JsonProperty("engineerName")]
         public string EngineerName { get; internal set; }
 
+        [JsonProperty("rankStage")]
         public string RankStage { get; internal set; }
 
+        [JsonProperty("rankValue")]
         public int? RankValue { get; internal set; }
 
         public SetCommanderRankEngineer(string engineerName, string rankStage)

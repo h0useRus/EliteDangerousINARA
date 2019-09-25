@@ -22,7 +22,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string OpponentName { get; set; }
 
         [JsonProperty("wingOpponentNames")]
-        public List<string> WingOpponentNames { get; set; }
+        public IEnumerable<string> WingOpponentNames { get; set; }
 
         [JsonProperty("isPlayer")]
         public bool? IsPlayer { get; set; }

@@ -17,7 +17,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         internal override string CommandName => "setCommanderMissionCompleted";
 
         [JsonProperty("missionGameID")]
-        public string MissionId { get; internal set; }
+        public long MissionId { get; internal set; }
 
         [JsonProperty("donationCredits")]
         public int? DonationCredits { get; set; }
@@ -25,18 +25,20 @@ namespace NSW.EliteDangerous.INARA.Commands
         [JsonProperty("rewardCredits")]
         public int? RewardCredits { get; set; }
 
+        [JsonProperty("rewardPermits")]
+        public IEnumerable<RewardPermit> RewardPermits { get; set; }
+
         [JsonProperty("rewardCommodities")]
-        public List<Commodity> RewardCommodities { get; set; }
+        public IEnumerable<Commodity> RewardCommodities { get; set; }
 
         [JsonProperty("rewardMaterials")]
-        public List<Commodity> RewardMaterials { get; set; }
+        public IEnumerable<Commodity> RewardMaterials { get; set; }
 
         [JsonProperty("minorfactionEffects")]
-        public List<FactionEffect> FactionEffects { get; set; }
+        public IEnumerable<FactionEffect> FactionEffects { get; set; }
 
-        public SetCommanderMissionCompleted(string missionId)
+        public SetCommanderMissionCompleted(long missionId)
         {
-            if(string.IsNullOrWhiteSpace(missionId)) throw new ArgumentNullException(nameof(missionId));
             MissionId = missionId;
         }
     }
