@@ -69,7 +69,7 @@ namespace NSW.EliteDangerous.INARA
             if(!valid)
                 return;
 
-            using (var response = await _inara.Client.PostAsync("inapi/v1/",  new StringContent(GetJson(), Encoding.UTF8, "application/json")).ConfigureAwait(false))
+            using (var response = await _inara.Client.PostAsync(string.Empty,  new StringContent(GetJson(), Encoding.UTF8, "application/json")).ConfigureAwait(false))
             {
                 var json = await response
                             .EnsureSuccessStatusCode()
@@ -77,22 +77,25 @@ namespace NSW.EliteDangerous.INARA
             }
         }
 
+        internal string GetJson()
+        {
+            Compile();
+            return Json.ToJson(Request);
+        }
+
         private void Compile()
         {
+            int counter = 0;
             foreach (var commandPair in _commands)
             {
                 var firstCommand = commandPair.Value[0];
 
                 Request.Events.Add(commandPair.Value.Count == 1
-                    ? new RequestBody(_inara.Clock, firstCommand.CommandName, firstCommand)
-                    : new RequestBody(_inara.Clock, firstCommand.CommandName, commandPair.Value));
-            }
-        }
+                    ? new RequestBody(_inara.Clock, firstCommand.CommandName, firstCommand, counter)
+                    : new RequestBody(_inara.Clock, firstCommand.CommandName, commandPair.Value, counter));
 
-        internal string GetJson()
-        {
-            Compile();
-            return Json.ToJson(Request);
+                counter++;
+            }
         }
     }
 }

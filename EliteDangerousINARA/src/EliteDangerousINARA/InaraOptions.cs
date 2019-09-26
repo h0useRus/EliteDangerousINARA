@@ -3,9 +3,9 @@ namespace NSW.EliteDangerous.INARA
     public class InaraOptions
     {
         /// <summary>
-        /// INARA url. Default 'https://inara.cz/'
+        /// INARA url. Default 'https://inara.cz/inapi/v1/'
         /// </summary>
-        public string Url { get; set; } = "https://inara.cz/";
+        public string Url { get; set; } = "https://inara.cz/inapi/v1/";
         /// <summary>
         /// If you are developing the application and/or testing new updates, please set this as 'true'.
         /// This setting will skip the updates for global events like setCommunityGoal, which may otherwise cause the problems with your test data.
