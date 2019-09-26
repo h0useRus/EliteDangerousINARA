@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NSW.EliteDangerous.INARA.Commands;
 
@@ -16,18 +17,14 @@ namespace NSW.EliteDangerous.INARA
         public EliteDangerousINARA(IOptions<InaraOptions> options, ISystemClock clock, ILoggerFactory loggerFactory)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
-            if (loggerFactory==null) throw new ArgumentNullException(nameof(loggerFactory));
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
-
+            Log = (loggerFactory ?? new NullLoggerFactory()).CreateLogger<EliteDangerousINARA>();
             Options = options.Value;
             if (string.IsNullOrWhiteSpace(Options.ApplicationName)) throw new ArgumentNullException(nameof(Options.ApplicationName));
             if (string.IsNullOrWhiteSpace(Options.ApplicationVersion)) throw new ArgumentNullException(nameof(Options.ApplicationVersion));
             if (string.IsNullOrWhiteSpace(Options.ApiKey)) throw new ArgumentNullException(nameof(Options.ApiKey));
             if (string.IsNullOrWhiteSpace(Options.Url)) throw new ArgumentNullException(nameof(Options.Url));
-
             Client = new HttpClient {BaseAddress = new Uri(Options.Url)};
-
-            Log = loggerFactory.CreateLogger<EliteDangerousINARA>();
         }
 
         public void SetCommander(string commander, string frontierId = null)

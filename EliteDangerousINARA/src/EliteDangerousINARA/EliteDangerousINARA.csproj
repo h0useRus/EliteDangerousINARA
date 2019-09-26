@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <VersionPrefix>1.0.0-preview1</VersionPrefix>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSW.EliteDangerous.API" Version="1.0.26" />
+    <PackageReference Include="NSW.EliteDangerous.API" Version="1.1.26" />
   </ItemGroup>
 
 </Project>
