@@ -13,13 +13,13 @@ namespace NSW.EliteDangerous.INARA.Commands
     {
         internal override string CommandName => "setCommanderCredits";
         [JsonProperty("commanderCredits")]
-        public int Credits { get; internal set; }
+        public long Credits { get; internal set; }
         [JsonProperty("commanderAssets")]
-        public int? Assets { get; set; }
+        public long? Assets { get; set; }
         [JsonProperty("commanderLoan")]
-        public int? Loan { get; set; }
+        public long? Loan { get; set; }
 
-        public SetCommanderCredits(int credits)
+        public SetCommanderCredits(long credits)
         {
             Credits = credits;
         }

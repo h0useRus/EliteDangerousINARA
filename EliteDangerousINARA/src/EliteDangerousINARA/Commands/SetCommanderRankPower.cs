@@ -15,9 +15,9 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string PowerName { get; internal set; }
 
         [JsonProperty("rankValue")]
-        public byte RankValue { get; internal set; }
+        public int RankValue { get; internal set; }
 
-        public SetCommanderRankPower(string powerName, byte rankValue)
+        public SetCommanderRankPower(string powerName, int rankValue)
         {
             if(string.IsNullOrWhiteSpace(powerName)) throw new ArgumentNullException(nameof(powerName));
             PowerName = powerName;

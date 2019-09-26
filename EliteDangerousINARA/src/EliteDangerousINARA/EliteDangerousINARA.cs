@@ -3,18 +3,19 @@ using System.Net.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
+using NSW.EliteDangerous.API;
 using NSW.EliteDangerous.INARA.Commands;
 
 namespace NSW.EliteDangerous.INARA
 {
-    internal class EliteDangerousINARA : IEliteDangerousINARA
+    internal partial class EliteDangerousINARA : IEliteDangerousINARA
     {
         internal HttpClient Client { get; }
         internal ILogger Log { get; }
         internal InaraOptions Options { get; }
         internal ISystemClock Clock { get; }
 
-        public EliteDangerousINARA(IOptions<InaraOptions> options, ISystemClock clock, ILoggerFactory loggerFactory)
+        public EliteDangerousINARA(IOptions<InaraOptions> options, ISystemClock clock, IEliteDangerousAPI eliteDangerousAPI, ILoggerFactory loggerFactory)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -25,6 +26,7 @@ namespace NSW.EliteDangerous.INARA
             if (string.IsNullOrWhiteSpace(Options.ApiKey)) throw new ArgumentNullException(nameof(Options.ApiKey));
             if (string.IsNullOrWhiteSpace(Options.Url)) throw new ArgumentNullException(nameof(Options.Url));
             Client = new HttpClient {BaseAddress = new Uri(Options.Url)};
+            _eliteDangerousAPI = eliteDangerousAPI;
         }
 
         public void SetCommander(string commander, string frontierId = null)
@@ -40,6 +42,8 @@ namespace NSW.EliteDangerous.INARA
             if(command==null) throw new ArgumentNullException(nameof(command));
             return new InaraRequest(this).AddCommand(command);
         }
+
+        public InaraRequest StartRequest() => new InaraRequest(this);
 
         internal InaraResponse HandleResponse(InaraResponse response)
         {

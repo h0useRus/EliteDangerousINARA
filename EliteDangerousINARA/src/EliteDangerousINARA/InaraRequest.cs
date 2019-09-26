@@ -48,6 +48,9 @@ namespace NSW.EliteDangerous.INARA
 
         public bool Validate()
         {
+            if (_commands.Count == 0)
+                return false;
+
             if (!string.IsNullOrWhiteSpace(Request.Header.Commander))
             {
                 return true;

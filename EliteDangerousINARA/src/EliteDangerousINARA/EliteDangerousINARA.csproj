@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <VersionPrefix>1.0.0</VersionPrefix>
@@ -11,9 +11,9 @@
     <AssemblyName>NSW.EliteDangerous.INARA</AssemblyName>
     <RootNamespace>NSW.EliteDangerous.INARA</RootNamespace>
     <PackageId>NSW.EliteDangerous.INARA</PackageId>
-    <PackageTags>Elite Dangerous;INARA;</PackageTags>
+    <PackageTags>Elite Dangerous INARA;</PackageTags>
     <PackageProjectUrl>https://github.com/h0useRus/EliteDangerousINARA</PackageProjectUrl>
-    <LangVersion>Latest</LangVersion>
+    <LangVersion>8</LangVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
