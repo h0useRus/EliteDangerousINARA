@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NSW.EliteDangerous.INARA.Commands;
+using NSW.EliteDangerous.INARA.Events;
 
 namespace NSW.EliteDangerous.INARA
 {
@@ -41,42 +43,47 @@ namespace NSW.EliteDangerous.INARA
                 _commands[type] = new List<Command>();
             _commands[type].Add(command);
 
-            //Request.Events.Add(new RequestBody<Command>(_inara.Clock, command));
             return this;
         }
 
-        public InaraRequest Validate(out bool valid)
+        public bool Validate()
         {
             if (!string.IsNullOrWhiteSpace(Request.Header.Commander))
             {
-                valid = true;
-                return this;
+                return true;
             }
 
             if (_commands.Any(command => command.Value.Any(@event => @event.RequireCommanderName)))
             {
-                valid = false;
-                return this;
+                return false;
             }
 
-            valid = true;
-            return this;
+            return true;
         }
 
-        public async Task SendAsync()
+        public async Task<InaraResponse> SendAsync()
         {
-            Validate(out var valid);
-            if(!valid)
-                return;
+            if(!Validate())
+                return _inara.HandleResponse(new InaraResponse { Status = ResponseStatus.NotValid });
 
-            using (var response = await _inara.Client.PostAsync(string.Empty,  new StringContent(GetJson(), Encoding.UTF8, "application/json")).ConfigureAwait(false))
+            try
             {
-                var json = await response
-                            .EnsureSuccessStatusCode()
-                            .Content.ReadAsStringAsync().ConfigureAwait(false);
+                using (var response = await _inara.Client.PostAsync(string.Empty, new StringContent(GetJson(), Encoding.UTF8, "application/json")).ConfigureAwait(false))
+                {
+                    var json = await response
+                        .EnsureSuccessStatusCode()
+                        .Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    return _inara.HandleResponse(ProcessResponse(Json.FromJson<Response>(json)));
+                }
+            }
+            catch(Exception exception)
+            {
+                _inara.Log.LogError(exception, exception.Message);
+                return _inara.HandleResponse(new InaraResponse { Status = ResponseStatus.Unprocessed, StatusText = exception.Message });
             }
         }
-
+       
         internal string GetJson()
         {
             Compile();
@@ -97,5 +104,57 @@ namespace NSW.EliteDangerous.INARA
                 counter++;
             }
         }
+
+        private InaraResponse ProcessResponse(Response response)
+        {
+            if(response?.Header == null)
+                return new InaraResponse { Status = ResponseStatus.Unprocessed };
+
+            var result = new InaraResponse
+            {
+                Status = response.Header.Status,
+                StatusText = response.Header.StatusText,
+                User = response.Header.Data
+            };
+
+            if (response.Events == null || response.Events.Length == 0)
+                return result;
+
+            foreach (var requestEvent in Request.Events)
+            {
+                // try match request and response
+                var responseEvent = response.Events.FirstOrDefault(e => e.Id == requestEvent.Id);
+
+                switch (requestEvent.Name)
+                {
+                    case "getCommanderProfile":
+                        result.Events.Add(CommanderResult.Process(responseEvent, _inara));
+                        break;
+                    case "addCommanderShip":
+                    case "setCommanderShip":
+                    case "setCommanderShipTransfer":
+                        result.Events.Add(ShipResult.Process(responseEvent, _inara));
+                        break;
+                    case "addCommanderTravelDock":
+                    case "addCommanderTravelFSDJump":
+                    case "setCommanderTravelLocation":
+                        result.Events.Add(TravelResult.Process(responseEvent, _inara));
+                        break;
+                    case "getCommunityGoalsRecent":
+                        break;
+                    default:
+                        result.Events.Add(new EventResult
+                        {
+                            Name = requestEvent.Name,
+                            Status = responseEvent?.Status ?? ResponseStatus.OK,
+                            StatusText = responseEvent?.StatusText
+                        });
+                        break;
+                }
+            }
+
+            return result;
+        }
+
     }
 }

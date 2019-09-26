@@ -6,7 +6,7 @@ namespace NSW.EliteDangerous.INARA
     internal class RequestBody
     {
         [JsonProperty("eventCustomID")]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         [JsonProperty("eventName")]
         public string Name { get; set; }
         [JsonProperty("eventTimestamp")]
@@ -14,7 +14,7 @@ namespace NSW.EliteDangerous.INARA
         [JsonProperty("eventData")]
         public object Data { get; set; }
 
-        public RequestBody(ISystemClock clock, string name, object data, int? id = null)
+        public RequestBody(ISystemClock clock, string name, object data, int id)
         {
             Id = id;
             Name = name;

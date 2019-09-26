@@ -44,6 +44,14 @@ namespace NSW.EliteDangerous.INARA
             return new InaraRequest(this).AddCommand(command);
         }
 
+        internal InaraResponse HandleResponse(InaraResponse response)
+        {
+            Responses?.Invoke(this, response);
+            return response;
+        }
+
+        public event EventHandler<InaraResponse> Responses;
+
         #region IDisposable
 
         private bool _disposed;

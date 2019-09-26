@@ -1,14 +1,15 @@
-using System.Net;
 using Newtonsoft.Json;
 
 namespace NSW.EliteDangerous.INARA
 {
     internal class ResponseData
     {
+        [JsonProperty("eventCustomID")]
+        public int? Id { get; internal set; }
         [JsonProperty("eventStatus")]
-        public HttpStatusCode Status { get; internal set; }
+        public ResponseStatus Status { get; internal set; }
         [JsonProperty("eventStatusText")]
-        public string Message { get; internal set; }
+        public string StatusText { get; internal set; }
     }
     internal class ResponseData<T> : ResponseData
     {

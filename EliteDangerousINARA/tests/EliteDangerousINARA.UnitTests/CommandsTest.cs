@@ -30,7 +30,7 @@ namespace NSW.EliteDangerous.INARA
         [Fact]
         public void FindCommanderProfile()
         {
-            var json = _fixture.INARA.AddCommand(new FindCommanderProfile("Vasya Pupkin")).GetJson();
+            var json = _fixture.INARA.AddCommand(new GetCommanderProfile("Vasya Pupkin")).GetJson();
             Assert.Equal("{\"header\":{\"appName\":\"your_application_name\",\"appVersion\":\"1.2.3\",\"isDeveloped\":true,\"APIkey\":\"your_apikey_from_inara\",\"commanderName\":\"Your Commander\",\"commanderFrontierID\":\"F1234567\"},\"events\":[{\"eventCustomID\":0,\"eventName\":\"getCommanderProfile\",\"eventTimestamp\":\"2019-09-02T17:00:00Z\",\"eventData\":{\"searchName\":\"Vasya Pupkin\"}}]}", json);
         }
 
@@ -394,7 +394,7 @@ namespace NSW.EliteDangerous.INARA
             var json = _fixture.INARA
                 .AddCommand(new AddCommanderFriend("Vasya Pupkin", GamePlatform.PC))
                 .AddCommand(new RemoveCommanderFriend("Vasya Pupkin", GamePlatform.PC))
-                .AddCommand(new FindCommanderProfile("Vasya Pupkin"))
+                .AddCommand(new GetCommanderProfile("Vasya Pupkin"))
                 .GetJson();
             Assert.Equal("{\"header\":{\"appName\":\"your_application_name\",\"appVersion\":\"1.2.3\",\"isDeveloped\":true,\"APIkey\":\"your_apikey_from_inara\",\"commanderName\":\"Your Commander\",\"commanderFrontierID\":\"F1234567\"},\"events\":[{\"eventCustomID\":0,\"eventName\":\"addCommanderFriend\",\"eventTimestamp\":\"2019-09-02T17:00:00Z\",\"eventData\":{\"commanderName\":\"Vasya Pupkin\",\"gamePlatform\":\"pc\"}},{\"eventCustomID\":1,\"eventName\":\"delCommanderFriend\",\"eventTimestamp\":\"2019-09-02T17:00:00Z\",\"eventData\":{\"commanderName\":\"Vasya Pupkin\",\"gamePlatform\":\"pc\"}},{\"eventCustomID\":2,\"eventName\":\"getCommanderProfile\",\"eventTimestamp\":\"2019-09-02T17:00:00Z\",\"eventData\":{\"searchName\":\"Vasya Pupkin\"}}]}", json);
 
