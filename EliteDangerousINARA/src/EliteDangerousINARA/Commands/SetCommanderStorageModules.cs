@@ -29,7 +29,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         public long? MarketId { get; set; }
 
         [JsonProperty("engineering")]
-        public ModuleEngineering Engineering { get; set; }
+        public Blueprint Engineering { get; set; }
 
         public SetCommanderStorageModules(string itemName)
         {

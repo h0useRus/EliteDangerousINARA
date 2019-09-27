@@ -18,7 +18,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string ShipType { get; internal set; }
 
         [JsonProperty("shipGameID")]
-        public int ShipId { get; internal set; }
+        public long ShipId { get; internal set; }
 
         [JsonProperty("starsystemName")]
         public string StarSystem { get; internal set; }
@@ -30,9 +30,9 @@ namespace NSW.EliteDangerous.INARA.Commands
         public long? MarketId { get; set; }
 
         [JsonProperty("transferTime")]
-        public int? TransferTime { get; set; }
+        public long? TransferTime { get; set; }
 
-        public SetCommanderShipTransfer(string shipType, int shipId, string starSystem, string station)
+        public SetCommanderShipTransfer(string shipType, long shipId, string starSystem, string station)
         {
             if(string.IsNullOrWhiteSpace(shipType)) throw new ArgumentNullException(nameof(shipType));
             if(string.IsNullOrWhiteSpace(starSystem)) throw new ArgumentNullException(nameof(starSystem));

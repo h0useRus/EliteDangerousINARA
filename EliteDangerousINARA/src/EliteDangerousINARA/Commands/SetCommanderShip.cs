@@ -19,7 +19,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string ShipType { get; internal set; }
 
         [JsonProperty("shipGameID")]
-        public int ShipId { get; internal set; }
+        public long ShipId { get; internal set; }
 
         [JsonProperty("shipName")]
         public string Name { get; set; }
@@ -57,7 +57,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         [JsonProperty("marketID")]
         public long? MarketId { get; set; }
 
-        public SetCommanderShip(string shipType, int shipId)
+        public SetCommanderShip(string shipType, long shipId)
         {
             if(string.IsNullOrWhiteSpace(shipType)) throw new ArgumentNullException(nameof(shipType));
             if(shipId<0) throw new ArgumentOutOfRangeException(nameof(shipId));

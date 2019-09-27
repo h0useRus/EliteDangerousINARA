@@ -23,9 +23,9 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string ShipType { get; internal set; }
 
         [JsonProperty("shipGameID")]
-        public int ShipId { get; internal set; }
+        public long ShipId { get; internal set; }
 
-        public RemoveCommanderShip(string shipType, int shipId)
+        public RemoveCommanderShip(string shipType, long shipId)
         {
             if(string.IsNullOrWhiteSpace(shipType)) throw new ArgumentNullException(nameof(shipType));
             if(shipId<0) throw new ArgumentOutOfRangeException(nameof(shipId));

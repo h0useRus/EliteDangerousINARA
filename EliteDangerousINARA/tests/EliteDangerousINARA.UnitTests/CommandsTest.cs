@@ -11,6 +11,7 @@ namespace NSW.EliteDangerous.INARA
         public CommandsTest(InaraCommandFixture fixture)
         {
             _fixture = fixture;
+            Assert.False(_fixture.INARA.IsApiAttached);
         }
 
         [Fact]
@@ -197,7 +198,7 @@ namespace NSW.EliteDangerous.INARA
         public void SetCommanderStorageModules()
         {
             var json = _fixture.INARA
-                .AddCommand(new SetCommanderStorageModules("$hpt_pulselaser_gimbal_large_name"){ItemValue = 350640, IsHot = true, StarSystem = "Sol", Station = "Abraham Lincoln", MarketId = 128016896, Engineering = new ModuleEngineering{BlueprintName = "Weapon_Overcharged", Level = 4, Quality = 0, ExperimentalEffect = "special_incendiary_rounds"}})
+                .AddCommand(new SetCommanderStorageModules("$hpt_pulselaser_gimbal_large_name"){ItemValue = 350640, IsHot = true, StarSystem = "Sol", Station = "Abraham Lincoln", MarketId = 128016896, Engineering = new Blueprint{BlueprintName = "Weapon_Overcharged", Level = 4, Quality = 0, ExperimentalEffect = "special_incendiary_rounds"}})
                 .AddCommand(new SetCommanderStorageModules("$int_cargorack_size7_class1_name"){ItemValue = 12800, IsHot = false, StarSystem = "Sol", Station = "Abraham Lincoln", MarketId = 128016896})
                 .AddCommand(new SetCommanderStorageModules("$int_dronecontrol_collection_size5_class5_name"){ItemValue = 4500, StarSystem = "Inara", Station = "Citi Gateway", MarketId = 3226573056})
                 .GetJson();

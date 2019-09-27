@@ -15,7 +15,7 @@ namespace NSW.EliteDangerous.INARA
         internal InaraOptions Options { get; }
         internal ISystemClock Clock { get; }
 
-        public EliteDangerousINARA(IOptions<InaraOptions> options, ISystemClock clock, IEliteDangerousAPI eliteDangerousAPI, ILoggerFactory loggerFactory)
+        public EliteDangerousINARA(IOptions<InaraOptions> options, ISystemClock clock, IEliteDangerousAPI eliteDangerousAPI = null, ILoggerFactory loggerFactory = null)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -26,7 +26,7 @@ namespace NSW.EliteDangerous.INARA
             if (string.IsNullOrWhiteSpace(Options.ApiKey)) throw new ArgumentNullException(nameof(Options.ApiKey));
             if (string.IsNullOrWhiteSpace(Options.Url)) throw new ArgumentNullException(nameof(Options.Url));
             Client = new HttpClient {BaseAddress = new Uri(Options.Url)};
-            _eliteDangerousAPI = eliteDangerousAPI;
+            _eliteAPI = eliteDangerousAPI;
         }
 
         public void SetCommander(string commander, string frontierId = null)

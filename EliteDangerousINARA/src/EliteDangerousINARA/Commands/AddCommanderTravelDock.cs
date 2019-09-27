@@ -28,7 +28,7 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string ShipType { get; set; }
 
         [JsonProperty("shipGameID")]
-        public int ShipId { get; set; }
+        public long ShipId { get; set; }
 
         public AddCommanderTravelDock(string starSystem, string station)
         {

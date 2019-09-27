@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace NSW.EliteDangerous.INARA.Commands
@@ -6,7 +7,7 @@ namespace NSW.EliteDangerous.INARA.Commands
     /// <summary>
     /// Sets the ship loadout/configuration, including modules modifications. When no shipLoadout is set, it just resets the ship configuration.
     /// </summary>
-    public class SetCommanderShipLoadout<TLoadout> : Command where TLoadout : class
+    public class SetCommanderShipLoadout : Command
     {
         internal override string CommandName => "setCommanderShipLoadout";
 
@@ -14,11 +15,12 @@ namespace NSW.EliteDangerous.INARA.Commands
         public string ShipType { get; internal set; }
 
         [JsonProperty("shipGameID")]
-        public int ShipId { get; internal set; }
+        public long ShipId { get; internal set; }
 
-        public TLoadout Loadout { get; internal set; }
+        [JsonProperty("shipLoadout")]
+        public IEnumerable<ShipModule> Loadout { get; set; }
 
-        public SetCommanderShipLoadout(string shipType, int shipId, TLoadout loadout)
+        public SetCommanderShipLoadout(string shipType, long shipId, IEnumerable<ShipModule> loadout)
         {
             if(string.IsNullOrWhiteSpace(shipType)) throw new ArgumentNullException(nameof(shipType));
             if(shipId<0) throw new ArgumentOutOfRangeException(nameof(shipId));
