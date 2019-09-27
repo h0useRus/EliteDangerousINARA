@@ -20,7 +20,7 @@ namespace TestConsole
                 {
                     o.ApplicationName = "NSW Inara Tests";
                     o.ApplicationVersion = "1.1.0";
-                    o.ApiKey = "36fjl8iq2j0gow0880cksscogswsoooosggg4ko";
+                    o.ApiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
                     o.IsDevelopment = true;
                 })
                 .AddSingleton<App>()
